@@ -1,27 +1,44 @@
-# V2Ray Openshift
+# V2Ray Heroku
+
+**若需部署 V2Ray VLESS，请转到 [vless](https://github.com/bclswl0827/v2ray-heroku/tree/vless) 分支。**
 
 ## 概述
 
-用于在 Openshift 上部署 V2Ray Websocket。
+本专案用于在 Heroku 上部署 V2Ray WebSocket，在合理使用的程度下，本镜像不会因为大量占用资源而导致封号。
 
-**Openshift 为我们提供了免费的容器服务，我们不应该滥用它。正因如此，本项目不宜做为长期翻墙使用。**
+部署完成后，每次启动应用时，运行的 V2Ray 将始终为最新版本
 
-**Openshift 的网络并不稳定，部署前请三思。**
+## 部署
 
-## 镜像
+### 步骤
 
- - DockerHub 的镜像：`bclswl0827/v2ray-openshift`。
- 
-## ENV 设定
+ 1. Fork 本专案到自己的 GitHub 账户（用户名以 `example` 为例）
+ 2. 修改专案名称，注意不要包含 `v2ray` 和 `heroku` 两个关键字（修改后的专案名以 `demo` 为例）
+ 3. 修改 `README.md`，将 `bclswl0827/v2ray-heroku` 替换为自己的内容（如 `example/demo`）
 
-### CONFIG_JSON
+> [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://dashboard.heroku.com/new?template=https://github.com/AldrinL/v2ray-openshift)
 
-`CONFIG_JSON` > `服务端 Websocket 配置文件`。
+ 4. 回到专案首页，点击上面的链接以部署 V2Ray
+
+### 变量
+
+对部署时需设定的变量名称做如下说明。
+
+| 变量 | 默认值 | 说明 |
+| :--- | :--- | :--- |
+| `ID` | `ad806487-2d26-4636-98b6-ab85cc8521f7` | VMess 用户主 ID，用于身份验证，为 UUID 格式 |
+| `AID` | `64` | 为进一步防止被探测所设额外 ID，即 AlterID，范围为 0 至 65535 |
+| `WSPATH` | `/` | WebSocket 所使用的 HTTP 协议路径 |
+
+## 接入 CloudFlare
+
+以下两种方式均可以将应用接入 CloudFlare，从而在一定程度上提升速度。
+
+ 1. 为应用绑定域名，并将该域名接入 CloudFlare
+ 2. 通过 CloudFlare Workers 反向代理
 
 ## 注意
 
-V2Ray 将在部署时自动安装最新版本。
-
-**出于安全考量，Openshift 配置 V2Ray 成功之后，请在 `Route` 一项中勾选 `Secure Route` 以实现 V2Ray Websocket + TLS。**
-
-设定 ENV CONFIG_JSON 时，务必将配置文件的换行符 `\r\n` 变更为 `\n`，然后填入 ENV 。使用 Linux 的朋友可以忽略这一步。
+ 1. **请勿滥用本专案，类似 Heroku 的免费服务少之又少，且用且珍惜**
+ 2. 若使用域名接入 CloudFlare，请考虑启用 TLS 1.3
+ 3. AWS 绝大部分 IPv4 地址已被 Twitter 屏蔽
