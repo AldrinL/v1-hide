@@ -8,25 +8,57 @@ DIR_TMP="$(mktemp -d)"
 # Write V2Ray configuration
 cat << EOF > ${DIR_TMP}/heroku.json
 {
-    "inbounds": [{
-        "port": ${PORT},
-        "protocol": "vmess",
-        "settings": {
-            "clients": [{
-                "id": "${ID}",
-                "alterId": ${AID}
-            }]
-        },
-        "streamSettings": {
-            "network": "ws",
-            "wsSettings": {
-                "path": "${WSPATH}"
-            }
+
+  "inbounds": [
+
+    {
+
+ 
+
+      "port": ${PORT},
+
+      "listen": "127.0.0.1",
+
+      "protocol": "socks",
+
+      "settings": {
+
+        "auth": "noauth",
+
+        "udp": false,
+
+        "userLevel": 999
+
+      },
+
+      "streamSettings": {
+
+        "network":"ws",
+
+        "wsSettings": {
+
+          "path":"/a"
+
         }
-    }],
-    "outbounds": [{
-        "protocol": "freedom"
-    }]
+
+      }
+
+    }
+
+  ],
+
+  "outbounds": [
+
+    {
+
+      "protocol": "freedom",
+
+      "settings": {}
+
+    }
+
+  ]
+
 }
 EOF
 
